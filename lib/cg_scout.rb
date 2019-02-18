@@ -6,13 +6,14 @@ module CgScout
       def self.run(options)
         Checks.run_all
         config = Config.new
+        env = options[:e]
 
-        if options[:e]
+        if env
           envs = config.get_environments
-          raise EnvironmentNotFound.new(options[:e], envs) unless envs.include? options[:e]
+          raise EnvironmentNotFound.new(env, envs) unless envs.include? env
           
           cloudgate = Cloudgate.new(config.get_cg_version)
-          commit_id, tag_info = cloudgate.run_command(options[:e])
+          commit_id, tag_info = cloudgate.run_command(env)
           raise CommitIdNotFound unless commit_id
           
           self.print_section("TAG INFO", tag_info)
