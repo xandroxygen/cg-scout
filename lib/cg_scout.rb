@@ -3,9 +3,8 @@ require 'pathname'
 module CgScout
     class CLI
       def self.run(options)
-        # check if working folder is a cg app and a git repo, and if aws creds are loaded
-        config_file = Pathname.getwd.join('cloudgate.yml')
-        raise CgScout::ProjectNotFound unless config_file.exist?
+        Checks.run_all
+        
         # fetch all environment possibilities from `deploy_dir/environments`
         # check if provided environment is a match
         # run command for env and store output
@@ -19,3 +18,4 @@ end
 
 require_relative 'cg_scout/version'
 require_relative 'cg_scout/exceptions'
+require_relative 'cg_scout/checks'
