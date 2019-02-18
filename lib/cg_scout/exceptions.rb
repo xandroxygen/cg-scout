@@ -44,4 +44,10 @@ module CgScout
       "This cloudgate app requires version #{@required} of cloudgate, but only versions #{@installed} are installed."
     end
   end
+
+  class CommitIdNotFound < RuntimeError
+    def message
+      "The git commit id was not found in the deployed environment."
+    end
+  end
 end

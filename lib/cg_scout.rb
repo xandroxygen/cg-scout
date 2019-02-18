@@ -20,8 +20,24 @@ module CgScout
           parsed_result = result.split("\r\n").map { |r| r.split('=') }.to_h
           
           commit_id = parsed_result["CG_GIT_COMMIT_ID"]
+          raise CommitIdNotFound unless commit_id
+
+          tag_info = parsed_result["CG_GIT_TAG"]
           commit_info = `git show -s --format=medium #{commit_id}`
+          undeployed_commits = `git log --oneline master...#{commit_id}`
+          recent_commits = `git log --oneline -n 10 #{commit_id}`
+          
+          puts "\n*** TAG INFO ***\n"
+          puts tag_info
+
+          puts "\n*** COMMIT INFO ***\n"
           puts commit_info
+
+          puts "\n*** UNDEPLOYED COMMITS ***\n"
+          puts undeployed_commits
+
+          puts "\n*** DEPLOYED COMMITS ***\n"
+          puts recent_commits
         else
           # all environments requested
           # not implemented yet
