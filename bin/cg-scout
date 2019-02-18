@@ -2,44 +2,23 @@
 
 require 'optparse'
 require 'methadone'
-require 'cg/scout.rb'
+require 'cg_scout.rb'
+require 'version.rb'
 
 class App
   include Methadone::Main
   include Methadone::CLILogging
 
-  main do # Add args you want: |like,so|
-    # your program code here
-    # You can access CLI options via
-    # the options Hash
-    puts "cg-scout"
-    puts options[:environment]
+  main do 
+    # check if working folder is a cg app and a git repo
+    # fetch all environment possibilities from `deploy_dir/environments`
+    # check if provided environment is a match
+
   end
-
-  # supplemental methods here
-
-  # Declare command-line interface here
-
-  # description "one line description of your app"
-  #
-  # Accept flags via:
-  # on("--flag VAL","Some flag")
-  # options[flag] will contain VAL
-  #
-  # Specify switches via:
-  # on("--[no-]switch","Some switch")
-  #
-  # Or, just call OptionParser methods on opts
-  #
-  # Require an argument
-  # arg :some_arg 
-  #
-  # # Make an argument optional
-  # arg :optional_arg, :optional
 
   on("-e ENV", "--environment", "Specific environment to check")
 
-  version Cg::Scout::VERSION
+  version CgScout::VERSION
 
   description "See what's deployed where"
 

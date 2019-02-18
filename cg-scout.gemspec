@@ -1,17 +1,16 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "cg/scout/version"
+require "version"
 
 Gem::Specification.new do |spec|
   spec.name          = "cg-scout"
   spec.license       = ""
-  spec.version       = Cg::Scout::VERSION
+  spec.version       = CgScout::VERSION
   spec.authors       = ["Xander Moffatt"]
   spec.email         = ["xmoffatt@instructure.com"]
 
-  spec.summary       = %q{to-do: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{to-do: Write a longer description or delete this line.}
+  spec.summary       = "See what's deployed where"
 
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
