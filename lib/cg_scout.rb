@@ -12,29 +12,23 @@ module CgScout
           raise EnvironmentNotFound.new(options[:e], envs) unless envs.include? options[:e]
           
           cloudgate = Cloudgate.new(config.get_cg_version)
-          commit_id, tag_info = cloudgate.run_command options[:e]
+          commit_id, tag_info = cloudgate.run_command(options[:e])
           raise CommitIdNotFound unless commit_id
-
-          commit_info = `git show -s --format=medium #{commit_id}`
-          undeployed_commits = `git log --oneline master...#{commit_id}`
-          recent_commits = `git log --oneline -n 10 #{commit_id}`
           
-          puts "\n*** TAG INFO ***\n"
-          puts tag_info
-
-          puts "\n*** COMMIT INFO ***\n"
-          puts commit_info
-
-          puts "\n*** UNDEPLOYED COMMITS ***\n"
-          puts undeployed_commits
-
-          puts "\n*** DEPLOYED COMMITS ***\n"
-          puts recent_commits
+          self.print_section("TAG INFO", tag_info)
+          self.print_section("COMMIT_INFO", Git.commit_info(commit_id))
+          self.print_section("UNDEPLOYED COMMITS", Git.undeployed_commits(commit_id))
+          self.print_section("DEPLOYED COMMITS", Git.deployed_commits(commit_id))
         else
           # all environments requested
           # not implemented yet
           raise EnvironmentNotProvided
         end
+      end
+
+      def self.print_section(title,data)
+        puts "\n*** #{title} ***\n"
+        puts data
       end
     end
 end
@@ -44,3 +38,4 @@ require_relative 'cg_scout/exceptions'
 require_relative 'cg_scout/checks'
 require_relative 'cg_scout/config'
 require_relative 'cg_scout/cloudgate'
+require_relative 'cg_scout/git'
