@@ -11,18 +11,10 @@ module CgScout
           envs = config.get_environments
           raise EnvironmentNotFound.new(options[:e], envs) unless envs.include? options[:e]
           
-          required_cg_version = config.get_cg_version
-          installed_cg_versions = Gem::Specification.find_all_by_name('cloudgate').map &:version
-          cg_version_to_use = installed_cg_versions.find { |v| Gem::Requirement.create(required_cg_version).satisfied_by?(v)}
-          raise VersionMismatch.new(required_cg_version, installed_cg_versions) if cg_version_to_use.nil?
-          
-          result = `cg _#{cg_version_to_use}_ run -q -e #{options[:e]} env | grep 'CG_GIT'`
-          parsed_result = result.split("\r\n").map { |r| r.split('=') }.to_h
-          
-          commit_id = parsed_result["CG_GIT_COMMIT_ID"]
+          cloudgate = Cloudgate.new(config.get_cg_version)
+          commit_id, tag_info = cloudgate.run_command options[:e]
           raise CommitIdNotFound unless commit_id
 
-          tag_info = parsed_result["CG_GIT_TAG"]
           commit_info = `git show -s --format=medium #{commit_id}`
           undeployed_commits = `git log --oneline master...#{commit_id}`
           recent_commits = `git log --oneline -n 10 #{commit_id}`
@@ -51,3 +43,4 @@ require_relative 'cg_scout/version'
 require_relative 'cg_scout/exceptions'
 require_relative 'cg_scout/checks'
 require_relative 'cg_scout/config'
+require_relative 'cg_scout/cloudgate'
