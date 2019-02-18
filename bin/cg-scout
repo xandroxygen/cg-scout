@@ -2,18 +2,14 @@
 
 require 'optparse'
 require 'methadone'
-require 'cg_scout.rb'
-require 'version.rb'
+require_relative '../lib/cg_scout'
 
 class App
   include Methadone::Main
   include Methadone::CLILogging
 
   main do 
-    # check if working folder is a cg app and a git repo
-    # fetch all environment possibilities from `deploy_dir/environments`
-    # check if provided environment is a match
-
+    CgScout::CLI.run(options)
   end
 
   on("-e ENV", "--environment", "Specific environment to check")
