@@ -9,6 +9,7 @@
 ```
 git clone <this repo>
 cd cg-scout
+bundle install
 rake install
 ```
 
