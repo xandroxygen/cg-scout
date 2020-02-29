@@ -10,7 +10,7 @@ GEM
     methadone (2.0.2)
       bundler
     power_assert (1.1.3)
-    rake (10.5.0)
+    rake (13.0.1)
     rdoc (6.1.1)
     test-unit (3.3.0)
       power_assert
@@ -21,7 +21,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.17)
   cg-scout!
-  rake (~> 10.0)
+  rake (~> 13.0)
   rdoc
   test-unit
 
